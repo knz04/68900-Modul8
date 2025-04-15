@@ -19,7 +19,8 @@ class StudentViewModel : ViewModel() {
         val studentMap = hashMapOf(
             "id" to student.id,
             "name" to student.name,
-            "program" to student.program
+            "program" to student.program,
+            "phones" to student.phones
         )
         db.collection("students")
             .add(studentMap)
@@ -27,13 +28,10 @@ class StudentViewModel : ViewModel() {
                 Log.d("Firestore"
                     ,
                     "DocumentSnapshot added with ID: ${it.id}")
-                fetchStudents() // Refresh list
+                fetchStudents()
             }
             .addOnFailureListener { e ->
-                Log.w("Firestore"
-                    ,
-                    "Error adding document"
-                    , e)
+                Log.w("Firestore", "Error adding document", e)
             }
     }
     private fun fetchStudents() {
@@ -45,7 +43,8 @@ class StudentViewModel : ViewModel() {
                     val id = document.getString("id") ?: ""
                     val name = document.getString("name") ?: ""
                     val program = document.getString("program") ?: ""
-                    list.add(Student(id, name, program))
+                    val phones = document.get("phones") as? List<String> ?: emptyList()
+                    list.add(Student(id, name, program, phones))
                 }
                 students = list
             }

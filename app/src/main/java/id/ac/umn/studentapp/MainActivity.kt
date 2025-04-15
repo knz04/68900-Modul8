@@ -22,7 +22,9 @@ class MainActivity : ComponentActivity() {
         FirebaseApp.initializeApp(this)
         setContent {
             MaterialTheme {
-                StudentRegistrationScreen()
+                StudentRegistrationScreen(
+                    viewModel = TODO()
+                )
             }
         }
     }
